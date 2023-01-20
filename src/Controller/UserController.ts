@@ -20,7 +20,7 @@ const UserController = {
 
                   console.log(users);
                   if (users) {
-                        res.send({ message: "Successfully Login", status: true });
+                        res.send({ message: "Successfully Login", status: true , user:users });
                   } else {
                         res.send({ message: "User not found", status: false });
                   }

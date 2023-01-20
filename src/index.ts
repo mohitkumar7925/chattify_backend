@@ -1,12 +1,13 @@
 import express from 'express'
 import http from 'http'
 import UserRoute from './Routes/UserRoute'
-
+import cors from 'cors'
 
 
 const app = express();
-const server = http.createServer(app);
 
+const server = http.createServer(app);
+app.use(cors())
 
 app.use(express.json());
 
