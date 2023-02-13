@@ -2,13 +2,13 @@ import express from 'express'
 import http from 'http'
 import UserRoute from './Routes/UserRoute'
 import cors from 'cors'
-
+import morgan from 'morgan'
 
 const app = express();
 
 const server = http.createServer(app);
 app.use(cors())
-
+app.use(morgan('dev'))
 app.use(express.json());
 
 app.use("/user", UserRoute);
