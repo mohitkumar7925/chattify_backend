@@ -76,7 +76,7 @@ const UserController = {
                         let users = await sequelize.query(
                               `SELECT  m.message_id , m.chat_id , m.message , m.createdAt , u.user_id , u.name , u.mobile  from Messages as m 
                         JOIN chatGroup as cg on ( cg.chat_id = m.chat_id AND ( m.toUser_id = ${user?.user_id} OR m.fromUser_id = ${user?.user_id}) ) 
-                        JOIN users as u ON ( u.user_id = cg.toUser_id || u.user_id = cg.fromUser_id && u.user_id != ${user?.user_id} )
+                        JOIN users as u ON ( (u.user_id = cg.toUser_id || u.user_id = cg.fromUser_id ) && u.user_id != ${user?.user_id} )
                         WHERE m.message_id IN ( SELECT MAX(message_id) FROM Messages WHERE fromUser_id = ${user?.user_id} OR toUser_id = ${user?.user_id} GROUP BY chat_id );`,
 
                               {
