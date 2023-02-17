@@ -59,6 +59,62 @@ const UserController = {
                   res.send({ message: "Missing Argument", status: false });
             }
       },
+      change_password: async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            console.log(req.body);
+            
+            if (req.body?.mobile && req.body.password && req.body.newPassword) {
+                  console.log(req.body);
+
+                  let mobile = req.body.mobile;
+                  let password = req.body.password;
+                  let newPassword = req.body.newPassword;
+
+                  let users = await User.findOne({
+                        where: {
+                              mobile: mobile,
+                              password: password,
+                        },
+                  });
+
+                  console.log(users);
+                  if (users) {
+
+                       let isUpdated = await User.update({
+                              password:newPassword
+                        },{
+                              where:{
+                                    mobile:mobile,
+                                    password:password
+                              },
+
+                        },
+                        )
+                        if(isUpdated?.length > 0){
+
+                              let newData = await User.findOne({
+                                    where:{
+                                          mobile:mobile,
+                                          password:newPassword
+                                    }
+                              })
+                              res.send({ message: "Password changed successfully", status: true, data: newData });
+                              
+                              
+                        }else{
+                              
+                              res.send({ message: "Something went wrong", status: false });
+
+                        }
+                        
+
+
+                  } else {
+                        res.send({ message: "User not found", status: false });
+                  }
+            } else {
+                  res.send({ message: "Missing Argument", status: false });
+            }
+      },
       userList: async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             if (req.body?.mobile) {
                   console.log(req.body);

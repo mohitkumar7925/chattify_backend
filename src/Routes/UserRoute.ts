@@ -9,6 +9,7 @@ const Router = express.Router();
 
 Router.post("/login", UserController.login);
 Router.post("/signup", UserController.signup);
+Router.post("/changePassword", UserController.change_password);
 
 Router.post("/userList", UserController.userList);
 
