@@ -59,7 +59,7 @@ const UserController = {
                   res.send({ message: "Missing Argument", status: false });
             }
       },
-      change_password: async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+      changePassword: async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log(req.body);
             
             if (req.body?.mobile && req.body.password && req.body.newPassword) {
@@ -98,6 +98,62 @@ const UserController = {
                                     }
                               })
                               res.send({ message: "Password changed successfully", status: true, data: newData });
+                              
+                              
+                        }else{
+                              
+                              res.send({ message: "Something went wrong", status: false });
+
+                        }
+                        
+
+
+                  } else {
+                        res.send({ message: "User not found", status: false });
+                  }
+            } else {
+                  res.send({ message: "Missing Argument", status: false });
+            }
+      },
+      updateProfile: async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            console.log(req.body);
+            
+            if (req.body?.mobile && req.body.password && req.body.newName) {
+                  console.log(req.body);
+
+                  let mobile = req.body.mobile;
+                  let password = req.body.password;
+                  let newName = req.body.newName;
+
+                  let users = await User.findOne({
+                        where: {
+                              mobile: mobile,
+                              password: password,
+                        },
+                  });
+
+                  console.log(users);
+                  if (users) {
+
+                       let isUpdated = await User.update({
+                              name:newName
+                        },{
+                              where:{
+                                    mobile:mobile,
+                                    password:password
+                              },
+
+                        },
+                        )
+                        if(isUpdated?.length > 0){
+
+                              let newData = await User.findOne({
+                                    where:{
+                                          mobile:mobile,
+                                          password:password
+                                    }
+                              })
+                              res.send({ message: "Profile updated successfully", status: true, data: newData });
                               
                               
                         }else{
