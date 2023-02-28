@@ -1,0 +1,58 @@
+version: '3.8'
+
+
+services:
+  app:
+    build: 
+      dockerfile: Dockerfile
+      context: ../app
+    restart: always
+    ports:
+      - 0.0.0.0:3000:3000
+  backend:
+    build: 
+      dockerfile: Dockerfile
+    restart: always
+    container_name: backend_container
+    ports:
+      - 0.0.0.0:4000:4000
+  socket:
+    build: 
+      dockerfile: Dockerfile
+      context: ../socket
+    restart: always
+    container_name: socket_container
+    ports:
+      - 0.0.0.0:4001:4001
+  
+  mysql:
+    image: mysql
+    container_name: mysql_container
+    restart: on-failure
+    environment: 
+    - MYSQL_ROOT_PASSWORD=root
+    volumes:
+    - "/Users/user/Desktop/chattifyVolumes/mysql:/var/lib/mysql"  
+    ports:
+    - '0.0.0.0:3306:3306'
+  phpmyadmin:
+    container_name: phpmyadmin_container
+    image: phpmyadmin
+    restart: always
+    links:
+        -  mysql:db
+    depends_on: 
+    - mysql
+    environment:
+    - MYSQL_HOST=localhost
+    - MYSQL_USER=user
+    - MYSQL_PASSWORD=test
+    - MYSQL_ROOT_PASSWORD=root
+    - UPLOAD_LIMIT=2048M
+    # volumes:
+    #     - "/home/user/Desktop/bharat raj/self-testing/db_images/phpmyadmin:/data"  
+    ports:
+    - '0.0.0.0:8084:80'
+
+
+  

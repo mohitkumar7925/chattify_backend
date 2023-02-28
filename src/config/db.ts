@@ -1,14 +1,9 @@
 import { Sequelize } from "sequelize";
 
+const sequelize = new Sequelize("chattify", "root", "root", {
+      host: "mysql",
+      dialect: "mysql" /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */,
+      logging: true,
+});
 
-const sequelize = new Sequelize('chattify', 'root', '', {
-    host: 'localhost',
-    dialect:'mariadb' /* one of 'mysql' | 'postgres' | 'sqlite' | 'mariadb' | 'mssql' | 'db2' | 'snowflake' | 'oracle' */,
-    logging:false,
-    
-    
-    
-  });
-
- 
-  export default sequelize;
+export default sequelize;
