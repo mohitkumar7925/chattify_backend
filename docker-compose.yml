@@ -13,6 +13,8 @@ services:
     build: 
       dockerfile: Dockerfile
     restart: always
+    depends_on:
+      - rabbitmq
     container_name: backend_container
     ports:
       - 0.0.0.0:4000:4000
@@ -21,6 +23,8 @@ services:
       dockerfile: Dockerfile
       context: ../socket
     restart: always
+    depends_on:
+      - rabbitmq
     container_name: socket_container
     ports:
       - 0.0.0.0:4001:4001
@@ -53,6 +57,12 @@ services:
     #     - "/home/user/Desktop/bharat raj/self-testing/db_images/phpmyadmin:/data"  
     ports:
     - '0.0.0.0:8084:80'
+  rabbitmq:
+    image: rabbitmq:alpine
+    container_name: 'rabbitmq'
+    ports:
+        - 5672:5672
+        - 15672:15672
 
 
   
