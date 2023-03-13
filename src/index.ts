@@ -5,6 +5,10 @@ import cors from "cors";
 import rabbit from "amqplib";
 import morgan from "morgan";
 import Message from "./Models/Message";
+import { Sequelize, Op } from "sequelize";
+import User from "./Models/User";
+import ChatGroup from "./Models/ChatGroup";
+
 declare global {
       var rabbit_channel: rabbit.Channel;
 }
@@ -61,7 +65,65 @@ app.use("/user", UserRoute);
 app.get("/", (req, res, next) => {
       res.send({ message: "It is working", status: true });
 });
-initializeRabbitMQ();
+
+// initializeRabbitMQ();
 server.listen(4000, () => {
       console.log("listing on 4000");
+
+      // Message.findAll({
+      //       attributes: [
+      //             // "chatGroup.chat_id",
+      //             "chat_id",
+      //             "toUser_id",
+      //             "fromUser_id",
+      //             "message",
+      //             "message_id",
+      //             [Sequelize.col("fromKey.name"), "name"],
+      //             // [Sequelize.col("messages.message_id"), "message_id"],
+      //             // [Sequelize.col("messages.message"), "message"],
+      //       ],
+      //       where: {
+      //             message_id: {
+      //                   // [Op.in]: Message.findAll({
+      //                   //       attributes: ["message_id"],
+      //                   //       where: {
+      //                   //             [Op.or]: [
+      //                   //                   {
+      //                   //                         fromUser_id: 1,
+      //                   //                   },
+      //                   //                   {
+      //                   //                         toUser_id: 1,
+      //                   //                   },
+      //                   //             ],
+      //                   //       },
+      //                   //       group: "chat_id",
+      //                   //       plain: true,
+      //                   // }),
+      //                   [Op.in]: [Sequelize.literal(`Select MAX(message_id) from messages where fromUser_id = ${1} or toUser_id = ${1} group by chat_id`)],
+      //             },
+      //       },
+      //       include: [
+      //             {
+      //                   model: User,
+      //                   where: {
+      //                         [Op.not]: { user_id: 1 },
+      //                   },
+      //                   attributes: [],
+      //                   // attributes: ["name", "mobile", "user_id"],
+      //                   as: "fromKey",
+      //                   required: false,
+      //                   on: {
+      //                         user_id: Sequelize.or([Sequelize.col("Message.fromUser_id"), Sequelize.col("Message.toUser_id")]),
+      //                   },
+      //             },
+      //       ],
+      //       raw: true,
+      // })
+
+      //       .then((res) => {
+      //             console.table(res);
+      //       })
+      //       .catch((err) => {
+      //             console.log(err);
+      //       });
 });

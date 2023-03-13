@@ -61,7 +61,7 @@ const UserController = {
       },
       changePassword: async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log(req.body);
-            
+
             if (req.body?.mobile && req.body.password && req.body.newPassword) {
                   console.log(req.body);
 
@@ -78,36 +78,28 @@ const UserController = {
 
                   console.log(users);
                   if (users) {
-
-                       let isUpdated = await User.update({
-                              password:newPassword
-                        },{
-                              where:{
-                                    mobile:mobile,
-                                    password:password
+                        let isUpdated = await User.update(
+                              {
+                                    password: newPassword,
                               },
-
-                        },
-                        )
-                        if(isUpdated?.length > 0){
-
+                              {
+                                    where: {
+                                          mobile: mobile,
+                                          password: password,
+                                    },
+                              }
+                        );
+                        if (isUpdated?.length > 0) {
                               let newData = await User.findOne({
-                                    where:{
-                                          mobile:mobile,
-                                          password:newPassword
-                                    }
-                              })
+                                    where: {
+                                          mobile: mobile,
+                                          password: newPassword,
+                                    },
+                              });
                               res.send({ message: "Password changed successfully", status: true, data: newData });
-                              
-                              
-                        }else{
-                              
+                        } else {
                               res.send({ message: "Something went wrong", status: false });
-
                         }
-                        
-
-
                   } else {
                         res.send({ message: "User not found", status: false });
                   }
@@ -117,7 +109,7 @@ const UserController = {
       },
       updateProfile: async (req: express.Request, res: express.Response, next: express.NextFunction) => {
             console.log(req.body);
-            
+
             if (req.body?.mobile && req.body.password && req.body.newName) {
                   console.log(req.body);
 
@@ -134,36 +126,28 @@ const UserController = {
 
                   console.log(users);
                   if (users) {
-
-                       let isUpdated = await User.update({
-                              name:newName
-                        },{
-                              where:{
-                                    mobile:mobile,
-                                    password:password
+                        let isUpdated = await User.update(
+                              {
+                                    name: newName,
                               },
-
-                        },
-                        )
-                        if(isUpdated?.length > 0){
-
+                              {
+                                    where: {
+                                          mobile: mobile,
+                                          password: password,
+                                    },
+                              }
+                        );
+                        if (isUpdated?.length > 0) {
                               let newData = await User.findOne({
-                                    where:{
-                                          mobile:mobile,
-                                          password:password
-                                    }
-                              })
+                                    where: {
+                                          mobile: mobile,
+                                          password: password,
+                                    },
+                              });
                               res.send({ message: "Profile updated successfully", status: true, data: newData });
-                              
-                              
-                        }else{
-                              
+                        } else {
                               res.send({ message: "Something went wrong", status: false });
-
                         }
-                        
-
-
                   } else {
                         res.send({ message: "User not found", status: false });
                   }
@@ -233,9 +217,9 @@ const UserController = {
                               where: {
                                     mobile: mobile,
                               },
-                              attributes:{
-                                    exclude:['password']
-                              }
+                              attributes: {
+                                    exclude: ["password"],
+                              },
                         });
                         if (toUser) {
                               console.log("toUser", toUser);
@@ -264,7 +248,7 @@ const UserController = {
                                                       chat_id: chat_id,
                                                 },
                                           });
-                                          res.send({ message: "Success", status: true, chat_id, chatHistory , user:toUser});
+                                          res.send({ message: "Success", status: true, chat_id, chatHistory, user: toUser });
                                     } else {
                                           chat_id = (Math.random() * Math.random() * 10 ** 20).toFixed(0);
 
@@ -274,7 +258,7 @@ const UserController = {
                                                 fromUser_id: fromUser.user_id!,
                                           });
                                           if (newChat) {
-                                                res.send({ message: "Success", status: true, chat_id, chatHistory: [] , user:toUser   });
+                                                res.send({ message: "Success", status: true, chat_id, chatHistory: [], user: toUser });
                                           } else {
                                                 res.send({ message: "Something went wrong", status: false });
                                           }
