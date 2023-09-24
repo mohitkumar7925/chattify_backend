@@ -183,13 +183,13 @@ const UserController = {
                   if (!user) {
                         res.send({ message: "Unauthorized", status: false });
                   } else {
-                        //  let usersList = sequelize.query(`Select * from users as u , chatGroup as cg , Messages as m where mobile != ${mobile}`)
+                        //  let usersList = sequelize.query(`Select * from users as u , chatGroup as cg , messages as m where mobile != ${mobile}`)
 
                         let users = await sequelize.query(
-                              `SELECT  m.message_id , m.chat_id , m.message , m.createdAt , u.user_id , u.name , u.mobile  from Messages as m 
+                              `SELECT  m.message_id , m.chat_id , m.message , m.createdAt , u.user_id , u.name , u.mobile  from messages as m 
                         JOIN chatGroup as cg on ( cg.chat_id = m.chat_id AND ( m.toUser_id = ${user?.user_id} OR m.fromUser_id = ${user?.user_id}) ) 
                         JOIN users as u ON ( (u.user_id = cg.toUser_id || u.user_id = cg.fromUser_id ) && u.user_id != ${user?.user_id} )
-                        WHERE m.message_id IN ( SELECT MAX(message_id) FROM Messages WHERE fromUser_id = ${user?.user_id} OR toUser_id = ${user?.user_id} GROUP BY chat_id );`,
+                        WHERE m.message_id IN ( SELECT MAX(message_id) FROM messages WHERE fromUser_id = ${user?.user_id} OR toUser_id = ${user?.user_id} GROUP BY chat_id );`,
 
                               {
                                     raw: true,
