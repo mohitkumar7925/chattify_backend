@@ -8,7 +8,8 @@ const app = express();
 
 const server = http.createServer(app);
 app.use(cors({
-      origin:'*'
+      origin:'*',
+      methods:['GET','POST']
 }))
 app.use(morgan('dev'))
 app.use(express.json());
